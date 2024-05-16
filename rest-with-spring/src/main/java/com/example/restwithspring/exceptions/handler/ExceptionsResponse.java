@@ -1,4 +1,4 @@
-package com.example.restwithspring.exceptions;
+package com.example.restwithspring.exceptions.handler;
 
 import lombok.Getter;
 
