@@ -32,4 +32,14 @@ public class Person implements Serializable {
     @Column(nullable = false, length = 6)
     private String gender;
 
+    @Column(nullable = false,length = 30)
+    private String email;
+
+    public Person(String firstName, String lastName, String address, String gender, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.gender = gender;
+        this.email = email;
+    }
 }
