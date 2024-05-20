@@ -1,6 +1,7 @@
 package com.example.restwithspring.repositories;
 
 import com.example.restwithspring.model.Person;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,27 @@ class PersonRepositoryTest {
     @Autowired
     PersonRepository repository;
 
+    private Person person0;
+    private Person person1;
+
+    @BeforeEach
+    public void setup () {
+        // Given
+        person0 = new Person(
+                "Edgar", "Mendes",
+                "Suzano - SP", "Male",
+                "edgar@zypmail.com");
+
+        person1 = new Person(
+                "Leonardo", "Mendes",
+                "Suzano - SP", "Male",
+                "leonardo@zypmail.com");
+    }
+
     @DisplayName("Given Person Object when Save then Return Saved Person")
     @Test
     void testGivenPersonObject_WhenSave_thenReturnSavedPerson() {
-        // Given
-        Person person0 = new Person("Edgar", "Mendes", "Suzano - SP", "Male", "edgar@zypmail.com");
+
         // When
         Person savedPerson = repository.save(person0);
         // Then
@@ -32,9 +49,6 @@ class PersonRepositoryTest {
     @DisplayName("Given Person List when findAll then Return all Person")
     @Test
     void testGivenPersonList_WhenFindingAll_thenReturnSavedPersonList() {
-        // Given
-        Person person0 = new Person("Edgar", "Mendes", "Suzano - SP", "Male", "edgar@zypmail.com");
-        Person person1 = new Person("Leonardo", "Mendes", "Suzano - SP", "Male", "leonardo@zypmail.com");
 
         repository.save(person0);
         repository.save(person1);
@@ -48,9 +62,8 @@ class PersonRepositoryTest {
     @DisplayName("Given Person Object when findByID then Return Saved Person")
     @Test
     void testGivenPersonObject_WhenFindByID_thenReturnSavedPersonObject() {
-        // Given
-        Person person0 = new Person("Edgar", "Mendes", "Suzano - SP", "Male", "edgar@zypmail.com");
 
+        // Given
         repository.save(person0);
         // When
         Person savedPerson = repository.findById(person0.getId()).get();
@@ -62,9 +75,8 @@ class PersonRepositoryTest {
     @DisplayName("Given Person Object when findByEmail then Return Saved Person")
     @Test
     void testGivenPersonObject_WhenFindByEmail_thenReturnSavedPersonObject() {
-        // Given
-        Person person0 = new Person("Edgar", "Mendes", "Suzano - SP", "Male", "edgar@zypmail.com");
 
+        // Given
         repository.save(person0);
         // When
         Person savedPerson = repository.findByEmail("edgar@zypmail.com").get();
@@ -76,9 +88,8 @@ class PersonRepositoryTest {
     @DisplayName("Given Person Object when Updated then Return Updated Person")
     @Test
     void testGivenPersonObject_WhenUpdatedPerson_thenReturnUpdatedPersonObject() {
-        // Given
-        Person person0 = new Person("Edgar", "Mendes", "Suzano - SP", "Male", "edgar@zypmail.com");
 
+        // Given
         Person updatedPerson = repository.save(person0);
         // When
         updatedPerson.setFirstName("Anny");
@@ -92,9 +103,8 @@ class PersonRepositoryTest {
     @DisplayName("Given Person Object when Delete then Return Removed Person")
     @Test
     void testGivenPersonObject_WhenDelete_thenReturnRemovedPerson() {
-        // Given
-        Person person0 = new Person("Edgar", "Mendes", "Suzano - SP", "Male", "edgar@zypmail.com");
 
+        // Given
         repository.save(person0);
         // When
         repository.deleteById(person0.getId());
