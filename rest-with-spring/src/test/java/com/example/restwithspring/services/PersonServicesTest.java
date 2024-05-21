@@ -1,5 +1,6 @@
 package com.example.restwithspring.services;
 
+import com.example.restwithspring.exceptions.ResourceNotFoundException;
 import com.example.restwithspring.model.Person;
 import com.example.restwithspring.repositories.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,10 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonServicesTest {
@@ -55,6 +54,21 @@ public class PersonServicesTest {
         // Then
         assertNotNull(savedPerson);
         assertEquals("Edgar", savedPerson.getFirstName());
+
+    }
+
+    @DisplayName("JUnit test for Given Existing Email when Save Person then Return Throws Exception")
+    @Test
+    void testGivenExistingEmail_WhenSavePerson_thenReturnThrowException() {
+        // Given
+        when(repository.findByEmail(anyString())).thenReturn(Optional.of(person0));
+        // When
+        assertThrows(ResourceNotFoundException.class, () -> {
+            services.create(person0);
+        });
+
+        // Then
+        verify(repository, never()).save(any(Person.class));
 
     }
 }
